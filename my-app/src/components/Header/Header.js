@@ -1,6 +1,6 @@
 import React from 'react'
 import './header.css'
-// import { FaHome } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import {Link,useNavigate} from 'react-router-dom'
 
 
@@ -11,8 +11,8 @@ function Header() {
 
   return (
     <div className='header-container'>
-        {/* <FaHome className='home-icon'  */}
-        {/* onClick={()=>navigate("/")}/> */}
+        <FaHome className='home-icon' 
+        onClick={()=>navigate("/")}/>
         {
             categories.map(item=>{
                 return <Link className='nav-link' to={`/categories/${item}`}>{item}</Link>
