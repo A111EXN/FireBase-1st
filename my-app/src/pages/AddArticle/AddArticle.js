@@ -1,12 +1,22 @@
 import React,{useState,useEffect} from 'react'
 import './addArticle.css'
+import { ref,uploadBytes,getDownloadURL } from 'firebase/storage'
+import { db,storage,auth } from '../../config/firebaseConfig'
+import { collection,addDoc,Timestamp } from 'firebase/firestore'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { v4 } from 'uuid';
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+
 
 function AddArticle({categories}) {
-
-
+    
+    const [user]=useAuthState(auth)
+    let navigate = useNavigate();
 
     const [formData,setFormData]=useState({
-        title:'',
+        title:"",
         summary:"",
         paragraphOne:"",
         paragraphTwo:"",
@@ -17,7 +27,37 @@ function AddArticle({categories}) {
 
     const createArticle=(e)=>{
         e.preventDefault()
-        console.log(formData)
+        const imageRef=ref(storage,`images/${formData.imageData.name + v4() }`)
+        uploadBytes(imageRef,formData.imageData)
+        .then(res=>{
+            getDownloadURL(res.ref)
+            .then(url=>{
+                const articleRef = collection(db,"articles")
+                addDoc(articleRef,{
+                    title:formData.title,
+                    summary:formData.summary,
+                    paragraphOne:formData.paragraphOne,
+                    paragraphTwo:formData.paragraphTwo,
+                    paragraphThree:formData.paragraphThree,
+                    category:formData.category,
+                    imageUrl:url,
+                    createdAt:Timestamp.now().toDate(),
+                    createdBy:user?.displayName
+                })
+                .then(res=>{
+                    toast('Article added successfully',{type:"success",autoClose: 1500})
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 2000);
+                })
+                .catch(err=>{
+                        console.log(err)
+                    })
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+        })
     }
 
   return (
