@@ -7,15 +7,23 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { signOut } from 'firebase/auth';
 
 
-function Header() {
+function Header({categories}) {
 
-    const categories = ["Health","Food","Travel","Technology"]
     let navigate=useNavigate(); 
     const [user]=useAuthState(auth)
 
   return (
     <div className='header-container'>
         <FaHome className='home-icon' onClick={()=>navigate("/")}/>
+        {
+          user
+          ? <Link className='auth-link' to="/addarticle">Add Article</Link>
+          : null
+        }
+
+
+
+
         <div className='categories-container'>
           {
               categories.map(item=>{
