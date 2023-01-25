@@ -17,11 +17,7 @@ function Banner() {
         const q = query(articleRef,orderBy("createdAt","desc"),limit(5))
         getDocs(q,articleRef)
         .then(res=>{
-
-            
             // console.log(res.docs[0]._document.data.value.mapValue.fields.title.stringValue)
-
-
             const articles = res.docs.map(item=>({
                 id:item.id,
                 ...item.data()
@@ -30,12 +26,8 @@ function Banner() {
             setOtherArticle (articles.splice(1))
             console.log(otherArticle)
 
-
-
         })
         .catch(err=>console.log(err))
-
-
     }, [])
     
 
@@ -43,7 +35,7 @@ function Banner() {
 
   return (
     <div className='banner-container'>
-        <div className='main-article-container' style={{backgroundImage:`url(${mainArticle?.ImageUrl})`}}>
+        <div className='main-article-container' style={{backgroundImage:`url(${mainArticle?.imageUrl})`}}>
             <div className="banner-info">
                 <h2>{mainArticle?.title}...</h2>
                 <small>{mainArticle?.createdAt?.toDate().toDateString()}</small>
@@ -52,7 +44,7 @@ function Banner() {
         <div className='other-articles-container'>
             {
                 otherArticle?.map(item=>{
-                    return <div className='other-article-item' style={{backgroundImage:`url(${item?.ImageUrl})`}}>
+                    return <div className='other-article-item' style={{backgroundImage:`url(${item?.imageUrl})`}}>
                           <div className="banner-info">
                             <h3>{item?.title.slice(0,15)}...</h3>
                             <small>{item?.createdAt?.toDate().toDateString()}</small>
