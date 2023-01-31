@@ -1,5 +1,5 @@
 import './App.css';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/HomePage/HomePage';
 import Header from './components/Header/Header';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import CategoryArticles from './pages/CategoryArticles/CategoryArticles';

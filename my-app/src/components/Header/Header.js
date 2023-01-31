@@ -27,7 +27,7 @@ function Header({categories}) {
         <div className='categories-container'>
           {
               categories.map(item=>{
-                  return <Link className='nav-link' to={`/categories/${item}`}>{item}</Link>
+                  return <Link key={item} className='nav-link' to={`/categories/${item}`}>{item}</Link>
               })
           }
         </div>
